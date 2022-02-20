@@ -1,10 +1,10 @@
 [package]
 name = "fut-ret"
-version = "0.1.0"
+version = "0.2.0"
 edition = "2021"
 authors = ["Eason Gao <kaoimin@qq.com>"]
 readme = "README.md"
-categories = ["Procedural macro helpers"]
+categories = ["development-tools::procedural-macro-helpers"]
 keywords = ["async-trait", "futures", "proc-macro"]
 repository = "https://github.com/KaoImin/fut-ret"
 license = "MIT"
