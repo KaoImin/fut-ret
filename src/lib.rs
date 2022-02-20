@@ -89,12 +89,15 @@ impl PinBoxFutRet {
         }
     }
 
-    /// Whether the function return a `Pin<Box<dyn Future<Output = RetTy>>>`.
+    /// Whether the function return a
+    /// [`Pin<Box<dyn Future<Output = RetTy>>>`](https://doc.rust-lang.org/std/boxed/struct.Box.html#method.pin).
     pub fn is_ret_pin_box_fut(&self) -> bool {
         self.is_pin_box_fut
     }
 
-    /// Whether the output type of [`Future`](https://docs.rs/futures/0.3.21/futures/future/trait.Future.html) is a `Result`.
+    /// Whether the output type of
+    /// [`Future`](https://docs.rs/futures/0.3.21/futures/future/trait.Future.html)
+    /// is a [`Result`](https://doc.rust-lang.org/std/result/index.html).
     pub fn is_fut_ret_result(&self) -> bool {
         self.is_fut_ret_result
     }
