@@ -3,8 +3,8 @@
 use proc_macro2::TokenStream;
 use quote::quote;
 use syn::{
-    GenericArgument, PathArguments, ReturnType, TraitBound, Type, TypeParamBound, TypePath,
-    TypeTraitObject,
+    AssocType, GenericArgument, PathArguments, ReturnType, TraitBound, Type, TypeParamBound,
+    TypePath, TypeTraitObject,
 };
 
 const PIN: &str = "Pin";
@@ -13,6 +13,7 @@ const FUTURE: &str = "Future";
 const RESULT: &str = "Result";
 
 /// The return type information of a function.
+#[derive(Debug, Clone)]
 pub struct PinBoxFutRet {
     is_pin_box_fut: bool,
     is_fut_ret_result: bool,
@@ -112,19 +113,21 @@ fn is_fut_ret_result(input: &PathArguments, fut_ret: &mut PinBoxFutRet) -> bool 
     match input {
         PathArguments::AngleBracketed(angle_arg) => {
             match angle_arg.args.first().expect("future output") {
-                GenericArgument::Binding(binding) => match &binding.ty {
-                    Type::Path(path) => {
-                        fut_ret.ret_ty = quote! { #path };
-                        path.path
-                            .segments
-                            .last()
-                            .unwrap()
-                            .ident
-                            .to_string()
-                            .contains(RESULT)
+                GenericArgument::AssocType(AssocType { ty, .. }) => {
+                    fut_ret.ret_ty = quote! { #ty };
+
+                    match ty {
+                        Type::Path(TypePath { path, .. }) => {
+                            path.segments
+                                .last()
+                                .unwrap()
+                                .ident
+                                .to_string()
+                                .contains(RESULT)
+                        }
+                        _ => false,
                     }
-                    _ => false,
-                },
+                }
                 _ => false,
             }
         }
