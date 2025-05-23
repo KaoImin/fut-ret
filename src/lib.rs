@@ -117,14 +117,13 @@ fn is_fut_ret_result(input: &PathArguments, fut_ret: &mut PinBoxFutRet) -> bool 
                     fut_ret.ret_ty = quote! { #ty };
 
                     match ty {
-                        Type::Path(TypePath { path, .. }) => {
-                            path.segments
-                                .last()
-                                .unwrap()
-                                .ident
-                                .to_string()
-                                .contains(RESULT)
-                        }
+                        Type::Path(TypePath { path, .. }) => path
+                            .segments
+                            .last()
+                            .unwrap()
+                            .ident
+                            .to_string()
+                            .contains(RESULT),
                         _ => false,
                     }
                 }
